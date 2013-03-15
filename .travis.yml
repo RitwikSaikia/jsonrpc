@@ -1,0 +1,12 @@
+language: java
+jdk:
+  - openjdk6
+
+branches:
+  only:
+    - master
+    - develop
+    - /^release-.*$/
+    - /^hotfix-.*$/
+
+script: "cd jsonrpc-java/ && mvn clean install"
