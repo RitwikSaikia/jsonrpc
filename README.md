@@ -1,5 +1,5 @@
 ## JsonRpc ##
-[![Build Status](https://travis-ci.org/RitwikSaikia/jsonrpc.png?branch=develop)](https://travis-ci.org/RitwikSaikia/jsonrpc)
+[![Build Status](https://travis-ci.org/RitwikSaikia/jsonrpc.png?branch=master)](https://travis-ci.org/RitwikSaikia/jsonrpc)
 
 JSON-RPC is a Java library implementing a very light weight client/server functionality of JSON-RPC protocol.
 Server/Client API is designed in such a way that, you don't have to worry about the details of the protocol.
