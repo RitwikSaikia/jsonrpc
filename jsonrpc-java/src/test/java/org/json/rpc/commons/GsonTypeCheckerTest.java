@@ -85,10 +85,12 @@ public class GsonTypeCheckerTest {
                 {ValidInnerClass.class}, //
                 {TooManyInnerClasses.class}, //
                 {ZeroArgConstructorClass.class}, //
+                {CyclicClass.class}, //
 
                 {ValidInnerClass[].class}, //
                 {TooManyInnerClasses[].class}, //
                 {ZeroArgConstructorClass[].class}, //
+                {CyclicClass[].class}, //
         };
     }
 
@@ -171,7 +173,6 @@ public class GsonTypeCheckerTest {
     public Object[][] invalidTypes() {
         return new Object[][]{
                 {ParameterizedClass.class}, //
-                {CyclicClass.class}, //
                 {FinalFields.class}, //
                 {ParameterizedCollections.class}, //
                 {InterfaceClass.class}, //
@@ -179,7 +180,6 @@ public class GsonTypeCheckerTest {
                 {NonZeroArgConstructorClass.class}, //
 
                 {ParameterizedClass[].class}, //
-                {CyclicClass[].class}, //
                 {FinalFields[].class}, //
                 {ParameterizedCollections[].class}, //
                 {InterfaceClass[].class}, //
