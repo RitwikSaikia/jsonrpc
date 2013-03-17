@@ -57,14 +57,17 @@ public class JsonRpcInvokerTest {
         }
     }
 
-    @Test
+    @Test // issue number is from google code,
+    // upgrade to Gson 2.2.2 was breaking it, as
+    // previous version was not able to detect the
+    // last '}' brace as parse error
     public void testIssue0002() throws Exception {
         JsonObject resp = new JsonObject();
         resp.addProperty("jsonrpc", "2.0");
         JsonObject error = new JsonObject();
         error.addProperty("code", -32002);
         error.addProperty("message", "service.invalid-parameters");
-        error.add("data", new JsonParser().parse("{\"email\":[\"'email' is no valid email address in the basic format local-part@hostname\"]}}"));
+        error.add("data", new JsonParser().parse("{\"email\":[\"'email' is no valid email address in the basic format local-part@hostname\"]}"));
         resp.add("error", error);
 
         TestInterface handle = invoker.get(getTransport(resp), "someHandler", TestInterface.class);
