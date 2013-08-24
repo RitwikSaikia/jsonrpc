@@ -56,14 +56,25 @@ public final class JsonRpcExecutor implements RpcIntroSpection {
 
     private final TypeChecker typeChecker;
     private volatile boolean locked;
+    
+    private final Gson gson;
 
     public JsonRpcExecutor() {
-        this(new GsonTypeChecker());
+        this(new GsonTypeChecker(), new Gson());
+    }
+
+    public JsonRpcExecutor(Gson gson) {
+        this(new GsonTypeChecker(), gson);
+    }
+
+    public JsonRpcExecutor(TypeChecker typeChecker) {
+    	this(typeChecker, new Gson());
     }
 
     @SuppressWarnings("unchecked")
-    public JsonRpcExecutor(TypeChecker typeChecker) {
+    public JsonRpcExecutor(TypeChecker typeChecker, Gson gson) {
         this.typeChecker = typeChecker;
+		this.gson = gson;
         this.handlers = new HashMap<String, HandleEntry<?>>();
         addHandler("system", this, RpcIntroSpection.class);
     }
@@ -239,7 +250,7 @@ public final class JsonRpcExecutor implements RpcIntroSpection {
             Object result = executableMethod.invoke(
                     handleEntry.getHandler(), getParameters(executableMethod, params));
 
-            return new Gson().toJsonTree(result);
+            return gson.toJsonTree(result);
         } catch (Throwable t) {
             if (t instanceof InvocationTargetException) {
                 t = ((InvocationTargetException) t).getTargetException();
@@ -261,7 +272,6 @@ public final class JsonRpcExecutor implements RpcIntroSpection {
 
     public Object[] getParameters(Method method, JsonArray params) {
         List<Object> list = new ArrayList<Object>();
-        Gson gson = new Gson();
         Class<?>[] types = method.getParameterTypes();
         for (int i = 0; i < types.length; i++) {
             JsonElement p = params.get(i);

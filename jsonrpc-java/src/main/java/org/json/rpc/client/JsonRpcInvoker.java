@@ -42,12 +42,23 @@ public final class JsonRpcInvoker {
 
     private final TypeChecker typeChecker;
 
+    private final Gson gson;
+
     public JsonRpcInvoker() {
-        this(new GsonTypeChecker());
+        this(new GsonTypeChecker(), new Gson());
+    }
+
+    public JsonRpcInvoker(Gson gson) {
+        this(new GsonTypeChecker(), gson);
     }
 
     public JsonRpcInvoker(TypeChecker typeChecker) {
+        this(typeChecker, new Gson());
+    }
+
+    public JsonRpcInvoker(TypeChecker typeChecker, Gson gson) {
         this.typeChecker = typeChecker;
+		this.gson = gson;
     }
 
     public <T> T get(final JsonRpcClientTransport transport, final String handle, final Class<T>... classes) {
@@ -55,7 +66,6 @@ public final class JsonRpcInvoker {
             typeChecker.isValidInterface(clazz);
         }
         return (T) Proxy.newProxyInstance(JsonRpcInvoker.class.getClassLoader(), classes, new InvocationHandler() {
-
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
                 return JsonRpcInvoker.this.invoke(handle, transport, method, args);
             }
@@ -67,8 +77,6 @@ public final class JsonRpcInvoker {
                           Object[] args) throws Throwable {
         int id = rand.nextInt(Integer.MAX_VALUE);
         String methodName = handleName + "." + method.getName();
-
-        Gson gson = new Gson();
 
         JsonObject req = new JsonObject();
         req.addProperty("id", id);

@@ -99,13 +99,13 @@ public class GsonTypeChecker extends TypeChecker {
             return false;
         }
 
-        // avoid circular references
+        // avoid cyclic references
+        // Issue #6: Be more lenient and allow more types,
+        //  let the developer handle StackOverFlowError
+        // in case of cycles
         visited = (visited == null ? new HashSet<Class<?>>() : visited);
         if (visited.contains(clazz)) {
-            if (throwException) {
-                throw new IllegalArgumentException("circular reference detected : " + clazz);
-            }
-            return false;
+            return true;
         }
         visited.add(clazz);
 
