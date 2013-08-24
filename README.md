@@ -159,7 +159,7 @@ In case of remote exception it throws an _Error_
    <dependency>
       <groupId>org.json.rpc</groupId>
       <artifactId>jsonrpc</artifactId>
-      <version>1.0</version>
+      <version>1.1</version>
    </dependency>
 </dependencies>
 
